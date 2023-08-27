@@ -8,6 +8,5 @@ tags:
   - édition
 ---
 
-La secrétaire des [[20230808091248]] Editions Garamond à l'élocution difficile.
+La secrétaire des [[20230808091248]] Editions Garamond à l'élocution difficile est qualifiée par ce prénom germanophone car sa manière de parler s'apparente à de l'allemand alors qu'elle parle italien mais sans véritablement marquer les voyelles.
 
->"Gudrun était une mystique allemande qui prétendait avoir des visions de l'Apocalypse."

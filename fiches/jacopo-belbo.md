@@ -9,13 +9,15 @@ tags:
 ---
 
 Jacopo Belbo travaille aux éditions [[20230808091248]] Garamond
-# Jacopo Belbo
 
-## Description physique
 
-Jacopo Belbo est un homme de taille moyenne, avec des cheveux bruns et des yeux bleus. Il est décrit comme étant intelligent et beau, mais également névrosé et instable.
+Jacopo Belbo est un homme de taille moyenne, avec des cheveux bruns et des yeux bleus. Il est décrit comme étant intelligent et beau, mais également névrosé et instable. Le lecteur avisé reconnaîtra dans ce personnage des traits communs avec [[20230826153251]] Umberto Eco lui-même.
+La référence à un fichier qui contient 120 citations met le doute car le roman contient également 120 citations comme entête de chapitre. Toutefois, le roman est écrit à la première personne ce qui rapproche au final plutôt Eco de Casaubon.
 
-## Personnalité
+L'autre référence possible qui a inspiré le personnage de Belbo est possiblement Jacques Bergier. 
+
+
+
 
 Belbo est un personnage complexe et nuancé. Il est intelligent, curieux et plein d'esprit, mais il est également névrosé, instable et parfois paranoïaque. Il est également attiré par le danger et l'aventure, et il est souvent prêt à prendre des risques.
 
