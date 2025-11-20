@@ -761,35 +761,26 @@
           p.textContent = item.descriptif;
           card.appendChild(p);
         }
+// FOOTER
+const footer = document.createElement("div");
+footer.className = "card-footer";
 
-        // FOOTER
-        const footer = document.createElement("div");
-        footer.className = "card-footer";
+if (item.lien) {
+  const link = document.createElement("a");
+  link.className = "card-link";
+  link.href = item.lien;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = "Voir le règlement";
+  footer.appendChild(link);
+} else {
+  const span = document.createElement("span");
+  span.className = "badge-small";
+  span.textContent = "Lien non renseigné";
+  footer.appendChild(span);
+}
 
-        if (item.lien) {
-          const link = document.createElement("a");
-          link.className = "card-link";
-          link.href = item.lien;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          link.textContent = "Voir le règlement";
-          footer.appendChild(link);
-        } else {
-          const span = document.createElement("span");
-          span.className = "badge-small";
-          span.textContent = "Lien non renseigné";
-          footer.appendChild(span);
-        }
-
-        const mediaInfo = document.createElement("span");
-        mediaInfo.className = "badge-small";
-        mediaInfo.textContent =
-          (item.speList && item.speList.length > 0
-            ? item.speList.join(" · ")
-            : "Spécialité non précisée");
-        footer.appendChild(mediaInfo);
-
-        card.appendChild(footer);
+card.appendChild(footer);
 
         cardsContainer.appendChild(card);
       });
