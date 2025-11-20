@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prix & Concours – Étudiants en journalisme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Style minimal mais propre -->
+  <style>
+    :root {
+      --bg-page: #f3f4f6;
+      --bg-card: #ffffff;
+      --border-subtle: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --accent: #2563eb;
+      --radius-lg: 1rem;
+      --shadow-soft: 0 10px 15px -3px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 2.5rem;
+    }
+
+    header {
+      margin-bottom: 1.5rem;
+    }
+
+    header h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .filters {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .filters-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+      align-items: center;
+    }
+
+    .filters-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      flex: 1 1 240px;
+    }
+
+    .search-input-wrapper input {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      padding-left: 2rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      font-size: 0.9rem;
+    }
+
+    .search-input-wrapper input:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+      border-color: transparent;
+    }
+
+    .search-input-wrapper .search-icon {
+      position: absolute;
+      left: 0.6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: #f9fafb;
+      font-size: 0.8rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .pill input {
+      margin: 0;
+    }
+
+    .pill span {
+      white-space: nowrap;
+    }
+
+    select {
+      padding: 0.4rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      font-size: 0.85rem;
+      background: #f9fafb;
+    }
+
+    .meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .status {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Cartes */
+    .cards-grid {
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-subtle);
+      padding: 0.9rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.25rem;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 0.12rem 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+
+    /* Couleurs M1/M2 */
+    .tag-public-M1 {
+      background: #e0f2fe;
+      color: #1d4ed8;
+    }
+    .tag-public-M2 {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    /* Couleurs Spé */
+    .tag-spe-PE {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .tag-spe-TELE {
+      background: #e0f2fe;
+      color: #1d4ed8;
+    }
+    .tag-spe-RADIO {
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+    .tag-spe-MULTIMEDIA {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .card-organisateur {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .organisateur-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .card-description {
+      font-size: 0.85rem;
+      color: #374151;
+      margin: 0.25rem 0 0.4rem;
+      line-height: 1.4;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    .card-link {
+      font-size: 0.8rem;
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .card-link:hover {
+      text-decoration: underline;
+    }
+
+    .badge-small {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.35rem;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: var(--text-muted);
+    }
+
+    .no-results {
+      margin-top: 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      .filters {
+        padding: 0.75rem;
+      }
+      .card {
+        padding: 0.75rem 0.8rem 0.9rem;
+      }
+    }
+  </style>
+
+  <!-- PapaParse pour lire le CSV côté navigateur -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>Prix & concours pour étudiants en journalisme</h1>
+      <p>Filtrez les prix par média, niveau (M1/M2) et organisateur.</p>
+
+      <section class="filters">
+        <div class="filters-row">
+          <span class="filters-label">Recherche</span>
+          <div class="search-input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Intitulé, organisateur, descriptif…"
+            />
+          </div>
+        </div>
+
+        <div class="filters-row">
+          <span class="filters-label">Spécialité</span>
+          <div id="filter-spe" class="pill-group">
+            <!-- Les boutons PE/TELE/RADIO/MULTIMEDIA seront injectés en JS -->
+          </div>
+        </div>
+
+        <div class="filters-row">
+          <span class="filters-label">Public</span>
+          <div id="filter-public" class="pill-group">
+            <!-- Les boutons M1/M2 seront injectés en JS -->
+          </div>
+        </div>
+
+        <div class="filters-row">
+          <span class="filters-label">Organisateur</span>
+          <select id="filter-organisateur">
+            <option value="all">Tous les organisateurs</option>
+          </select>
+        </div>
+
+        <div class="meta-bar">
+          <div id="results-count">0 résultat</div>
+          <div id="status" class="status"></div>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <div id="cards" class="cards-grid"></div>
+      <div id="no-results" class="no-results" style="display: none;">
+        Aucun résultat ne correspond à ces critères.
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Nom du fichier CSV à placer à côté de ce HTML
+    const CSV_URL = "prix_concours.csv";
+
+    // Valeurs possibles pour les filtres
+    const SPE_OPTIONS = ["PE", "TELE", "RADIO", "MULTIMEDIA"];
+    const PUBLIC_OPTIONS = ["M1", "M2"];
+
+    let DATA = [];
+    const state = {
+      search: "",
+      specs: new Set(),
+      publics: new Set(),
+      organizer: "all",
+    };
+
+    function valueFromRow(row, keys) {
+      for (const k of keys) {
+        if (row[k] !== undefined && row[k] !== null) {
+          return String(row[k]);
+        }
+      }
+      return "";
+    }
+
+    function splitValues(str) {
+      if (!str) return [];
+      return String(str)
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+    }
+
+    function createFilterPills(container, values, type) {
+      container.innerHTML = "";
+      values.forEach((val) => {
+        const label = document.createElement("label");
+        label.className = "pill";
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.value = val;
+        input.addEventListener("change", () => {
+          const set = type === "spe" ? state.specs : state.publics;
+          if (input.checked) {
+            set.add(val);
+          } else {
+            set.delete(val);
+          }
+          applyFilters();
+        });
+        const span = document.createElement("span");
+        span.textContent = val;
+        label.appendChild(input);
+        label.appendChild(span);
+        container.appendChild(label);
+      });
+    }
+
+    function buildOrganizerFilter() {
+      const select = document.getElementById("filter-organisateur");
+      const existing = new Set(
+        DATA.map((d) => d.organisateur).filter((o) => o && o.trim() !== "")
+      );
+      const organizers = Array.from(existing).sort((a, b) =>
+        a.localeCompare(b, "fr")
+      );
+      organizers.forEach((org) => {
+        const opt = document.createElement("option");
+        opt.value = org;
+        opt.textContent = org;
+        select.appendChild(opt);
+      });
+    }
+
+    function applyFilters() {
+      const cardsContainer = document.getElementById("cards");
+      const noResultsEl = document.getElementById("no-results");
+      const countEl = document.getElementById("results-count");
+
+      const search = state.search.toLowerCase();
+      const filtered = DATA.filter((item) => {
+        const speList = splitValues(item.spe);
+        const publicList = splitValues(item.public);
+
+        // Filtre recherche texte
+        if (search) {
+          const haystack = (
+            (item.intitule || "") +
+            " " +
+            (item.organisateur || "") +
+            " " +
+            (item.descriptif || "")
+          ).toLowerCase();
+          if (!haystack.includes(search)) return false;
+        }
+
+        // Filtre Spé
+        if (state.specs.size > 0) {
+          const matchSpe = speList.some((s) => state.specs.has(s));
+          if (!matchSpe) return false;
+        }
+
+        // Filtre Public
+        if (state.publics.size > 0) {
+          const matchPub = publicList.some((p) => state.publics.has(p));
+          if (!matchPub) return false;
+        }
+
+        // Filtre Organisateur
+        if (state.organizer !== "all") {
+          if ((item.organisateur || "").trim() !== state.organizer) return false;
+        }
+
+        return true;
+      });
+
+      cardsContainer.innerHTML = "";
+
+      if (filtered.length === 0) {
+        noResultsEl.style.display = "block";
+        countEl.textContent = "0 résultat";
+        return;
+      }
+
+      noResultsEl.style.display = "none";
+      countEl.textContent =
+        filtered.length + (filtered.length > 1 ? " résultats" : " résultat");
+
+      filtered.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        // HEADER
+        const header = document.createElement("div");
+        header.className = "card-header";
+
+        const title = document.createElement("h2");
+        title.className = "card-title";
+        title.textContent = item.intitule || "(Intitulé manquant)";
+
+        const tagsContainer = document.createElement("div");
+        tagsContainer.className = "card-tags";
+
+        // Tags public (M1/M2)
+        const publicList = splitValues(item.public);
+        publicList.forEach((p) => {
+          if (!PUBLIC_OPTIONS.includes(p)) return;
+          const tag = document.createElement("span");
+          tag.className = "tag tag-public-" + p;
+          tag.textContent = p;
+          tagsContainer.appendChild(tag);
+        });
+
+        // Tags Spé
+        const speList = splitValues(item.spe);
+        speList.forEach((s) => {
+          if (!SPE_OPTIONS.includes(s)) return;
+          const tag = document.createElement("span");
+          tag.className = "tag tag-spe-" + s;
+          tag.textContent = s;
+          tagsContainer.appendChild(tag);
+        });
+
+        header.appendChild(title);
+        header.appendChild(tagsContainer);
+        card.appendChild(header);
+
+        // Organisateur
+        if (item.organisateur) {
+          const orgRow = document.createElement("div");
+          orgRow.className = "card-organisateur";
+
+          const avatar = document.createElement("div");
+          avatar.className = "organisateur-avatar";
+          avatar.textContent = item.organisateur.trim().charAt(0).toUpperCase();
+
+          const orgName = document.createElement("span");
+          orgName.textContent = item.organisateur;
+
+          orgRow.appendChild(avatar);
+          orgRow.appendChild(orgName);
+          card.appendChild(orgRow);
+        }
+
+        // Descriptif
+        if (item.descriptif) {
+          const p = document.createElement("p");
+          p.className = "card-description";
+          p.textContent = item.descriptif;
+          card.appendChild(p);
+        }
+
+        // Footer
+        const footer = document.createElement("div");
+        footer.className = "card-footer";
+
+        if (item.lien) {
+          const link = document.createElement("a");
+          link.className = "card-link";
+          link.href = item.lien;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "Voir le règlement";
+          footer.appendChild(link);
+        } else {
+          const span = document.createElement("span");
+          span.className = "badge-small";
+          span.textContent = "Lien non renseigné";
+          footer.appendChild(span);
+        }
+
+        const mediaInfo = document.createElement("span");
+        mediaInfo.className = "badge-small";
+        mediaInfo.textContent =
+          splitValues(item.spe).join(" · ") || "Spécialité non précisée";
+        footer.appendChild(mediaInfo);
+
+        card.appendChild(footer);
+
+        cardsContainer.appendChild(card);
+      });
+    }
+
+    function loadData() {
+      const statusEl = document.getElementById("status");
+      statusEl.textContent = "Chargement des données…";
+
+      Papa.parse(CSV_URL, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+          DATA = results.data.map((row) => {
+            return {
+              intitule: valueFromRow(row, ["Intitulé", "Intitulé "]),
+              organisateur: valueFromRow(row, ["Organisateur", "Organisateur "]),
+              spe: valueFromRow(row, ["Spé", "Spé "]),
+              public: valueFromRow(row, ["Public concerné", "Public concerné "]),
+              descriptif: valueFromRow(row, ["Descriptif", "Descriptif "]),
+              lien: valueFromRow(row, ["lien", "lien "]),
+            };
+          });
+
+          buildOrganizerFilter();
+          applyFilters();
+          statusEl.textContent = "";
+        },
+        error: function (err) {
+          console.error(err);
+          statusEl.textContent =
+            "Erreur lors du chargement du CSV. Vérifiez le nom de fichier.";
+        },
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Initialisation des filtres
+      createFilterPills(
+        document.getElementById("filter-spe"),
+        SPE_OPTIONS,
+        "spe"
+      );
+      createFilterPills(
+        document.getElementById("filter-public"),
+        PUBLIC_OPTIONS,
+        "public"
+      );
+
+      const searchInput = document.getElementById("search-input");
+      searchInput.addEventListener("input", (e) => {
+        state.search = e.target.value.trim();
+        applyFilters();
+      });
+
+      const orgSelect = document.getElementById("filter-organisateur");
+      orgSelect.addEventListener("change", (e) => {
+        state.organizer = e.target.value;
+        applyFilters();
+      });
+
+      // Chargement du CSV
+      loadData();
+    });
+  </script>
+</body>
+</html>
