@@ -2,20 +2,20 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Prix & Concours – Étudiants en journalisme</title>
+  <title>Prix & concours – Étudiants en journalisme</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Style minimal mais propre -->
   <style>
     :root {
-      --bg-page: #f3f4f6;
+      --accent: #e40051;    /* rose IJBA */
+      --accent-soft: #ffe0ee;
+      --bg-page: #f5f5f5;
       --bg-card: #ffffff;
-      --border-subtle: #e5e7eb;
-      --text-main: #111827;
+      --text-main: #111111;
       --text-muted: #6b7280;
-      --accent: #2563eb;
+      --border-subtle: #e5e7eb;
       --radius-lg: 1rem;
-      --shadow-soft: 0 10px 15px -3px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 10px 20px rgba(15, 23, 42, 0.08);
     }
 
     * {
@@ -25,7 +25,7 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg-page);
+      background: radial-gradient(circle at top left, #fff, #f3f3f3 55%, #e8e8e8);
       color: var(--text-main);
     }
 
@@ -36,46 +36,77 @@
     }
 
     header {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
       margin-bottom: 1.5rem;
     }
 
+    .header-main {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .header-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(228, 0, 81, 0.35);
+    }
+
+    .header-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--accent);
+    }
+
     header h1 {
-      margin: 0 0 0.25rem;
-      font-size: 1.8rem;
+      margin: 0;
+      font-size: 1.85rem;
+      letter-spacing: -0.02em;
     }
 
     header p {
-      margin: 0;
+      margin: 0.1rem 0 0;
       color: var(--text-muted);
       font-size: 0.95rem;
     }
 
+    /* Filtres */
+
     .filters {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      background: #ffffff;
+      margin-top: 0.75rem;
+      padding: 1rem 1rem 0.9rem;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-soft);
       border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.9rem;
     }
 
     .filters-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem 1.5rem;
+      gap: 0.75rem 1.25rem;
       align-items: center;
     }
 
     .filters-label {
       font-size: 0.8rem;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.12em;
       color: var(--text-muted);
       font-weight: 600;
-      margin-right: 0.5rem;
+      margin-right: 0.4rem;
+      white-space: nowrap;
     }
 
     .search-input-wrapper {
@@ -90,6 +121,7 @@
       border-radius: 999px;
       border: 1px solid var(--border-subtle);
       font-size: 0.9rem;
+      background: #fdfdfd;
     }
 
     .search-input-wrapper input:focus {
@@ -116,14 +148,15 @@
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.3rem;
-      padding: 0.15rem 0.55rem;
+      gap: 0.25rem;
+      padding: 0.15rem 0.5rem;
       border-radius: 999px;
       border: 1px solid var(--border-subtle);
-      background: #f9fafb;
+      background: #fafafa;
       font-size: 0.8rem;
       cursor: pointer;
       user-select: none;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
     }
 
     .pill input {
@@ -134,19 +167,65 @@
       white-space: nowrap;
     }
 
+    .pill input:checked + span {
+      color: #ffffff;
+    }
+
+    .pill input:checked + span.pe {
+      background: var(--accent);
+      border-radius: 999px;
+      padding: 0.05rem 0.5rem;
+    }
+
+    .pill input:checked + span.tele {
+      background: #111111;
+      border-radius: 999px;
+      padding: 0.05rem 0.5rem;
+    }
+
+    .pill input:checked + span.radio {
+      background: #9c27b0;
+      border-radius: 999px;
+      padding: 0.05rem 0.5rem;
+    }
+
+    .pill input:checked + span.multimedia {
+      background: #059669;
+      border-radius: 999px;
+      padding: 0.05rem 0.5rem;
+    }
+
+    .pill input:checked + span.m1 {
+      background: var(--accent);
+      border-radius: 999px;
+      padding: 0.05rem 0.5rem;
+    }
+
+    .pill input:checked + span.m2 {
+      background: #111111;
+      border-radius: 999px;
+      padding: 0.05rem 0.5rem;
+    }
+
+    .pill input:checked + span.diplomes {
+      background: #6b7280;
+      border-radius: 999px;
+      padding: 0.05rem 0.5rem;
+    }
+
     select {
       padding: 0.4rem 0.6rem;
       border-radius: 999px;
       border: 1px solid var(--border-subtle);
       font-size: 0.85rem;
-      background: #f9fafb;
+      background: #fafafa;
     }
 
     .meta-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 0.75rem;
+      margin-top: 0.3rem;
       font-size: 0.8rem;
       color: var(--text-muted);
     }
@@ -157,6 +236,7 @@
     }
 
     /* Cartes */
+
     .cards-grid {
       margin-top: 1.5rem;
       display: grid;
@@ -174,6 +254,15 @@
       flex-direction: column;
       gap: 0.5rem;
       position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(228, 0, 81, 0.04), transparent 45%);
+      pointer-events: none;
     }
 
     .card-header {
@@ -181,6 +270,8 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 0.5rem;
+      position: relative;
+      z-index: 1;
     }
 
     .card-title {
@@ -198,35 +289,39 @@
 
     .tag {
       border-radius: 999px;
-      padding: 0.12rem 0.5rem;
+      padding: 0.12rem 0.55rem;
       font-size: 0.7rem;
       font-weight: 600;
       line-height: 1.3;
       white-space: nowrap;
     }
 
-    /* Couleurs M1/M2 */
+    /* Couleurs Public (M1/M2/diplômés) */
     .tag-public-M1 {
-      background: #e0f2fe;
-      color: #1d4ed8;
+      background: var(--accent);
+      color: #ffffff;
     }
     .tag-public-M2 {
-      background: #fee2e2;
-      color: #b91c1c;
+      background: #111111;
+      color: #ffffff;
+    }
+    .tag-public-diplomes {
+      background: #6b7280;
+      color: #ffffff;
     }
 
     /* Couleurs Spé */
     .tag-spe-PE {
-      background: #fef3c7;
-      color: #92400e;
+      background: var(--accent-soft);
+      color: var(--accent);
     }
     .tag-spe-TELE {
-      background: #e0f2fe;
-      color: #1d4ed8;
+      background: #e5e7eb;
+      color: #111111;
     }
     .tag-spe-RADIO {
-      background: #ede9fe;
-      color: #5b21b6;
+      background: #f3e8ff;
+      color: #7e22ce;
     }
     .tag-spe-MULTIMEDIA {
       background: #dcfce7;
@@ -239,19 +334,31 @@
       gap: 0.45rem;
       font-size: 0.85rem;
       color: var(--text-muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    .organisateur-logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      object-fit: contain;
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      padding: 2px 3px;
     }
 
     .organisateur-avatar {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 999px;
-      background: #e5e7eb;
+      background: #111111;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      color: #4b5563;
+      color: #ffffff;
     }
 
     .card-description {
@@ -259,6 +366,8 @@
       color: #374151;
       margin: 0.25rem 0 0.4rem;
       line-height: 1.4;
+      position: relative;
+      z-index: 1;
     }
 
     .card-footer {
@@ -267,6 +376,8 @@
       justify-content: space-between;
       align-items: center;
       font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
     }
 
     .card-link {
@@ -282,7 +393,7 @@
 
     .badge-small {
       font-size: 0.7rem;
-      padding: 0.1rem 0.35rem;
+      padding: 0.1rem 0.45rem;
       border-radius: 999px;
       background: #f3f4f6;
       color: var(--text-muted);
@@ -300,19 +411,32 @@
         padding: 0.75rem;
       }
       .card {
-        padding: 0.75rem 0.8rem 0.9rem;
+        padding: 0.8rem 0.8rem 0.9rem;
+      }
+      header h1 {
+        font-size: 1.5rem;
       }
     }
   </style>
 
-  <!-- PapaParse pour lire le CSV côté navigateur -->
+  <!-- PapaParse pour lire le CSV -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
   <div class="page">
     <header>
-      <h1>Prix & concours pour étudiants en journalisme</h1>
-      <p>Filtrez les prix par média, niveau (M1/M2) et organisateur.</p>
+      <div class="header-main">
+        <div class="header-icon" aria-hidden="true">
+          <!-- petite coupe à gauche -->
+          <svg viewBox="0 0 24 24">
+            <path d="M17 4V3a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v1H4a1 1 0 0 0-1 1v1a5 5 0 0 0 4 4.9A5.002 5.002 0 0 0 11 15v2H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2a5.002 5.002 0 0 0 4-4.1A5 5 0 0 0 21 6V5a1 1 0 0 0-1-1h-3Zm-9 6A3 3 0 0 1 5 7V6h2v4Zm11-3a3 3 0 0 1-3 3V6h3Z"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Prix & concours pour étudiants en journalisme</h1>
+          <p>Filtrez les prix par média, niveau (M1, M2, diplômés) et organisateur à partir du tableur.</p>
+        </div>
+      </div>
 
       <section class="filters">
         <div class="filters-row">
@@ -329,16 +453,12 @@
 
         <div class="filters-row">
           <span class="filters-label">Spécialité</span>
-          <div id="filter-spe" class="pill-group">
-            <!-- Les boutons PE/TELE/RADIO/MULTIMEDIA seront injectés en JS -->
-          </div>
+          <div id="filter-spe" class="pill-group"></div>
         </div>
 
         <div class="filters-row">
           <span class="filters-label">Public</span>
-          <div id="filter-public" class="pill-group">
-            <!-- Les boutons M1/M2 seront injectés en JS -->
-          </div>
+          <div id="filter-public" class="pill-group"></div>
         </div>
 
         <div class="filters-row">
@@ -364,14 +484,24 @@
   </div>
 
   <script>
-    // Nom du fichier CSV à placer à côté de ce HTML
+    // Nom du fichier CSV
     const CSV_URL = "prix_concours.csv";
 
-    // Valeurs possibles pour les filtres
+    // Valeurs de référence
     const SPE_OPTIONS = ["PE", "TELE", "RADIO", "MULTIMEDIA"];
-    const PUBLIC_OPTIONS = ["M1", "M2"];
+    const PUBLIC_OPTIONS = ["M1", "M2", "diplômés"]; // affiché "diplômés"
+
+    // Logos connus (mettre les fichiers correspondants dans /logos)
+    const LOGO_MAP = {
+      "rtl": "logos/rtl.svg",
+      "rtl france": "logos/rtl.svg",
+      "europe 1": "logos/europe1.svg",
+      "europe1": "logos/europe1.svg",
+      "le monde": "logos/lemonde.svg",
+    };
 
     let DATA = [];
+
     const state = {
       search: "",
       specs: new Set(),
@@ -379,31 +509,99 @@
       organizer: "all",
     };
 
+    // Helpers de normalisation
+    function stripDiacritics(str) {
+      return str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
     function valueFromRow(row, keys) {
       for (const k of keys) {
-        if (row[k] !== undefined && row[k] !== null) {
+        if (row[k] !== undefined && row[k] !== null && String(row[k]).trim() !== "") {
           return String(row[k]);
         }
       }
       return "";
     }
 
-    function splitValues(str) {
+    function splitMultiValues(str) {
       if (!str) return [];
       return String(str)
-        .split(",")
+        .split(/[;,\/]/)
         .map((s) => s.trim())
         .filter(Boolean);
     }
 
+    function normalizeSpeList(str) {
+      const raw = splitMultiValues(str);
+      return raw
+        .map((s) => s.toUpperCase())
+        .filter((s) => SPE_OPTIONS.includes(s));
+    }
+
+    function normalizePublicList(str) {
+      const raw = splitMultiValues(str);
+      const result = [];
+      raw.forEach((val) => {
+        const v = stripDiacritics(val.toLowerCase());
+        if (v === "m1" || v === "master1" || v === "master 1") {
+          if (!result.includes("M1")) result.push("M1");
+        } else if (v === "m2" || v === "master2" || v === "master 2") {
+          if (!result.includes("M2")) result.push("M2");
+        } else if (
+          v === "diplomes" ||
+          v === "diplomes " ||
+          v === "diplome" ||
+          v === "diplome " ||
+          v === "diplomes etudiants" ||
+          v === "diplomees" ||
+          v === "diplomes/diplomees" ||
+          v === "diplomes,diplomees"
+        ) {
+          if (!result.includes("diplômés")) result.push("diplômés");
+        }
+      });
+      return result;
+    }
+
+    function labelForPublic(p) {
+      if (p === "diplômés") return "Diplômés";
+      return p;
+    }
+
+    // Création des filtres (pills)
     function createFilterPills(container, values, type) {
       container.innerHTML = "";
       values.forEach((val) => {
         const label = document.createElement("label");
         label.className = "pill";
+
         const input = document.createElement("input");
         input.type = "checkbox";
         input.value = val;
+
+        const span = document.createElement("span");
+        let spanText = val;
+        let spanClass = "";
+
+        if (type === "spe") {
+          if (val === "PE") spanClass = "pe";
+          if (val === "TELE") spanClass = "tele";
+          if (val === "RADIO") spanClass = "radio";
+          if (val === "MULTIMEDIA") spanClass = "multimedia";
+        } else if (type === "public") {
+          if (val === "M1") spanClass = "m1";
+          if (val === "M2") spanClass = "m2";
+          if (val === "diplômés") {
+            spanClass = "diplomes";
+            spanText = "Diplômés";
+          }
+        }
+
+        span.className = spanClass;
+        span.textContent = spanText;
+
         input.addEventListener("change", () => {
           const set = type === "spe" ? state.specs : state.publics;
           if (input.checked) {
@@ -413,14 +611,14 @@
           }
           applyFilters();
         });
-        const span = document.createElement("span");
-        span.textContent = val;
+
         label.appendChild(input);
         label.appendChild(span);
         container.appendChild(label);
       });
     }
 
+    // Liste des organisateurs pour le select
     function buildOrganizerFilter() {
       const select = document.getElementById("filter-organisateur");
       const existing = new Set(
@@ -437,17 +635,16 @@
       });
     }
 
+    // Applique les filtres et (re)dessine les cartes
     function applyFilters() {
       const cardsContainer = document.getElementById("cards");
       const noResultsEl = document.getElementById("no-results");
       const countEl = document.getElementById("results-count");
 
       const search = state.search.toLowerCase();
-      const filtered = DATA.filter((item) => {
-        const speList = splitValues(item.spe);
-        const publicList = splitValues(item.public);
 
-        // Filtre recherche texte
+      const filtered = DATA.filter((item) => {
+        // filtrage texte
         if (search) {
           const haystack = (
             (item.intitule || "") +
@@ -455,23 +652,24 @@
             (item.organisateur || "") +
             " " +
             (item.descriptif || "")
-          ).toLowerCase();
+          )
+            .toLowerCase();
           if (!haystack.includes(search)) return false;
         }
 
-        // Filtre Spé
+        // filtrage Spé
         if (state.specs.size > 0) {
-          const matchSpe = speList.some((s) => state.specs.has(s));
+          const matchSpe = item.speList.some((s) => state.specs.has(s));
           if (!matchSpe) return false;
         }
 
-        // Filtre Public
+        // filtrage Public
         if (state.publics.size > 0) {
-          const matchPub = publicList.some((p) => state.publics.has(p));
+          const matchPub = item.publicList.some((p) => state.publics.has(p));
           if (!matchPub) return false;
         }
 
-        // Filtre Organisateur
+        // filtrage Organisateur
         if (state.organizer !== "all") {
           if ((item.organisateur || "").trim() !== state.organizer) return false;
         }
@@ -506,20 +704,18 @@
         const tagsContainer = document.createElement("div");
         tagsContainer.className = "card-tags";
 
-        // Tags public (M1/M2)
-        const publicList = splitValues(item.public);
-        publicList.forEach((p) => {
-          if (!PUBLIC_OPTIONS.includes(p)) return;
+        // tags public (M1/M2/diplômés)
+        item.publicList.forEach((p) => {
           const tag = document.createElement("span");
-          tag.className = "tag tag-public-" + p;
-          tag.textContent = p;
+          if (p === "M1") tag.className = "tag tag-public-M1";
+          else if (p === "M2") tag.className = "tag tag-public-M2";
+          else if (p === "diplômés") tag.className = "tag tag-public-diplomes";
+          tag.textContent = labelForPublic(p);
           tagsContainer.appendChild(tag);
         });
 
-        // Tags Spé
-        const speList = splitValues(item.spe);
-        speList.forEach((s) => {
-          if (!SPE_OPTIONS.includes(s)) return;
+        // tags Spé (PE/TELE/RADIO/MULTIMEDIA) – uniquement ceux présents
+        item.speList.forEach((s) => {
           const tag = document.createElement("span");
           tag.className = "tag tag-spe-" + s;
           tag.textContent = s;
@@ -530,24 +726,35 @@
         header.appendChild(tagsContainer);
         card.appendChild(header);
 
-        // Organisateur
+        // ORGANISATEUR
         if (item.organisateur) {
           const orgRow = document.createElement("div");
           orgRow.className = "card-organisateur";
 
-          const avatar = document.createElement("div");
-          avatar.className = "organisateur-avatar";
-          avatar.textContent = item.organisateur.trim().charAt(0).toUpperCase();
+          const key = stripDiacritics(item.organisateur.toLowerCase());
+          const logoPath = LOGO_MAP[key];
+
+          if (logoPath) {
+            const logoImg = document.createElement("img");
+            logoImg.className = "organisateur-logo";
+            logoImg.src = logoPath;
+            logoImg.alt = item.organisateur;
+            orgRow.appendChild(logoImg);
+          } else {
+            const avatar = document.createElement("div");
+            avatar.className = "organisateur-avatar";
+            avatar.textContent = item.organisateur.trim().charAt(0).toUpperCase();
+            orgRow.appendChild(avatar);
+          }
 
           const orgName = document.createElement("span");
           orgName.textContent = item.organisateur;
-
-          orgRow.appendChild(avatar);
           orgRow.appendChild(orgName);
+
           card.appendChild(orgRow);
         }
 
-        // Descriptif
+        // DESCRIPTIF
         if (item.descriptif) {
           const p = document.createElement("p");
           p.className = "card-description";
@@ -555,7 +762,7 @@
           card.appendChild(p);
         }
 
-        // Footer
+        // FOOTER
         const footer = document.createElement("div");
         footer.className = "card-footer";
 
@@ -577,7 +784,9 @@
         const mediaInfo = document.createElement("span");
         mediaInfo.className = "badge-small";
         mediaInfo.textContent =
-          splitValues(item.spe).join(" · ") || "Spécialité non précisée";
+          (item.speList && item.speList.length > 0
+            ? item.speList.join(" · ")
+            : "Spécialité non précisée");
         footer.appendChild(mediaInfo);
 
         card.appendChild(footer);
@@ -586,6 +795,7 @@
       });
     }
 
+    // Chargement du CSV
     function loadData() {
       const statusEl = document.getElementById("status");
       statusEl.textContent = "Chargement des données…";
@@ -596,13 +806,23 @@
         skipEmptyLines: true,
         complete: function (results) {
           DATA = results.data.map((row) => {
+            const intitule = valueFromRow(row, ["Intitulé", "Intitulé "]);
+            const organisateur = valueFromRow(row, ["Organisateur", "Organisateur "]);
+            const speRaw = valueFromRow(row, ["Spé", "Spe", "Spé "]);
+            const publicRaw = valueFromRow(row, ["Public concerné", "Public concerné "]);
+            const descriptif = valueFromRow(row, ["Descriptif", "Descriptif "]);
+            const lien = valueFromRow(row, ["lien", "Lien", "lien "]);
+
+            const speList = normalizeSpeList(speRaw);
+            const publicList = normalizePublicList(publicRaw);
+
             return {
-              intitule: valueFromRow(row, ["Intitulé", "Intitulé "]),
-              organisateur: valueFromRow(row, ["Organisateur", "Organisateur "]),
-              spe: valueFromRow(row, ["Spé", "Spé "]),
-              public: valueFromRow(row, ["Public concerné", "Public concerné "]),
-              descriptif: valueFromRow(row, ["Descriptif", "Descriptif "]),
-              lien: valueFromRow(row, ["lien", "lien "]),
+              intitule,
+              organisateur,
+              speList,
+              publicList,
+              descriptif,
+              lien,
             };
           });
 
@@ -619,7 +839,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      // Initialisation des filtres
+      // filtres
       createFilterPills(
         document.getElementById("filter-spe"),
         SPE_OPTIONS,
@@ -643,7 +863,6 @@
         applyFilters();
       });
 
-      // Chargement du CSV
       loadData();
     });
   </script>
