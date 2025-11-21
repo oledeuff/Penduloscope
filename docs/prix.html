@@ -165,52 +165,34 @@
 
     .pill span {
       white-space: nowrap;
+      padding: 0.05rem 0.2rem;
+      border-radius: 999px;
     }
 
+    /* Styles quand coché : on stylise le span selon une classe dédiée */
     .pill input:checked + span {
       color: #ffffff;
     }
-
     .pill input:checked + span.pe {
       background: var(--accent);
-      border-radius: 999px;
-      padding: 0.05rem 0.5rem;
     }
-
     .pill input:checked + span.tele {
       background: #111111;
-      border-radius: 999px;
-      padding: 0.05rem 0.5rem;
     }
-
     .pill input:checked + span.radio {
       background: #9c27b0;
-      border-radius: 999px;
-      padding: 0.05rem 0.5rem;
     }
-
     .pill input:checked + span.multimedia {
       background: #059669;
-      border-radius: 999px;
-      padding: 0.05rem 0.5rem;
     }
-
     .pill input:checked + span.m1 {
       background: var(--accent);
-      border-radius: 999px;
-      padding: 0.05rem 0.5rem;
     }
-
     .pill input:checked + span.m2 {
       background: #111111;
-      border-radius: 999px;
-      padding: 0.05rem 0.5rem;
     }
-
     .pill input:checked + span.diplomes {
       background: #6b7280;
-      border-radius: 999px;
-      padding: 0.05rem 0.5rem;
     }
 
     select {
@@ -339,8 +321,8 @@
     }
 
     .organisateur-logo {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 6px;
       object-fit: contain;
       background: #ffffff;
@@ -373,8 +355,9 @@
     .card-footer {
       margin-top: auto;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
+      gap: 0.5rem;
       font-size: 0.8rem;
       position: relative;
       z-index: 1;
@@ -484,20 +467,84 @@
   </div>
 
   <script>
-    // Nom du fichier CSV
+    // Nom du fichier CSV (dans le même dossier que index.html)
     const CSV_URL = "prix.csv";
 
     // Valeurs de référence
     const SPE_OPTIONS = ["PE", "TELE", "RADIO", "MULTIMEDIA"];
-    const PUBLIC_OPTIONS = ["M1", "M2", "diplômés"]; // affiché "diplômés"
+    const PUBLIC_OPTIONS = ["M1", "M2", "diplômés"]; // affiché "Diplômés"
 
-    // Logos connus (mettre les fichiers correspondants dans /logos)
+    // Normalisation simple (accents + casse)
+    function stripDiacritics(str) {
+      return str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function normalizeKey(str) {
+      if (!str) return "";
+      return stripDiacritics(String(str))
+        .toLowerCase()
+        .trim();
+    }
+
+    // Logos connus
     const LOGO_MAP = {
+      "l'equipe": "logos/lequipe.svg",
+      "lequipe": "logos/lequipe.svg",
+
+      "ajis": "logos/ajis.svg",
+      "association ajis": "logos/ajis.svg",
+
+      "fondation de la chimie": "logos/fondation-chimie.svg",
+
+      "association ajir": "logos/ajir.svg",
+      "ajir": "logos/ajir.svg",
+
+      "universite paris dauphine & jne": "logos/dauphine-psl.svg",
+      "universite paris dauphine": "logos/dauphine-psl.svg",
+      "jne": "logos/jne.svg",
+
+      "elle": "logos/elle.svg",
+      "geo": "logos/geo.svg",
+
+      "radio france": "logos/radio-france.svg",
       "rtl": "logos/rtl.svg",
-      "rtl france": "logos/rtl.svg",
-      "europe 1": "logos/europe1.svg",
-      "europe1": "logos/europe1.svg",
-      "le monde": "logos/lemonde.svg",
+
+      "rmc sport": "logos/rmc-sport.svg",
+      "rmc info": "logos/rmc.svg",
+      "rmc": "logos/rmc.svg",
+
+      "rfi": "logos/rfi.svg",
+      "radios francophones publiques": "logos/rfp.svg",
+
+      "france televisions": "logos/france-televisions.svg",
+      "france television": "logos/france-televisions.svg",
+      "france 3 & tsvp": "logos/france3.svg",
+      "france 3": "logos/france3.svg",
+
+      "bfm tv": "logos/bfmtv.svg",
+      "bfmtv": "logos/bfmtv.svg",
+
+      "canal +": "logos/canal-plus.svg",
+      "canal+": "logos/canal-plus.svg",
+
+      "tf1 et lci": "logos/tf1.svg",
+      "tf1": "logos/tf1.svg",
+      "lci": "logos/lci.svg",
+
+      "m6": "logos/m6.svg",
+
+      "fondation hippocrene, ministere francais des affaires etrangeres & aje": "logos/fondation-hippocrene.svg",
+      "fondation hippocrene": "logos/fondation-hippocrene.svg",
+
+      "ministere de l'enseignement superieur et de la recherche": "logos/ministere-esr.svg",
+      "ministere de l'enseignement suppérieur et de la recherche": "logos/ministere-esr.svg",
+
+      "ministere de l'europe et des affaires etrangeres": "logos/ministere-meae.svg",
+      "ministere francais des affaires etrangeres": "logos/ministere-meae.svg",
+
+      "aje": "logos/aje.svg",
     };
 
     let DATA = [];
@@ -506,16 +553,10 @@
       search: "",
       specs: new Set(),
       publics: new Set(),
-      organizer: "all",
+      organizerKey: "all",
     };
 
-    // Helpers de normalisation
-    function stripDiacritics(str) {
-      return str
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-    }
-
+    // Helpers CSV → valeur
     function valueFromRow(row, keys) {
       for (const k of keys) {
         if (row[k] !== undefined && row[k] !== null && String(row[k]).trim() !== "") {
@@ -528,7 +569,7 @@
     function splitMultiValues(str) {
       if (!str) return [];
       return String(str)
-        .split(/[;,\/]/)
+        .split(/[;,/]/)
         .map((s) => s.trim())
         .filter(Boolean);
     }
@@ -544,21 +585,12 @@
       const raw = splitMultiValues(str);
       const result = [];
       raw.forEach((val) => {
-        const v = stripDiacritics(val.toLowerCase());
+        const v = normalizeKey(val);
         if (v === "m1" || v === "master1" || v === "master 1") {
           if (!result.includes("M1")) result.push("M1");
         } else if (v === "m2" || v === "master2" || v === "master 2") {
           if (!result.includes("M2")) result.push("M2");
-        } else if (
-          v === "diplomes" ||
-          v === "diplomes " ||
-          v === "diplome" ||
-          v === "diplome " ||
-          v === "diplomes etudiants" ||
-          v === "diplomees" ||
-          v === "diplomes/diplomees" ||
-          v === "diplomes,diplomees"
-        ) {
+        } else if (v.startsWith("diplome")) {
           if (!result.includes("diplômés")) result.push("diplômés");
         }
       });
@@ -618,11 +650,13 @@
       });
     }
 
-    // Liste des organisateurs pour le select
+    // Select d'organisateurs
     function buildOrganizerFilter() {
       const select = document.getElementById("filter-organisateur");
       const existing = new Set(
-        DATA.map((d) => d.organisateur).filter((o) => o && o.trim() !== "")
+        DATA
+          .map((d) => (d.organisateur || "").trim())
+          .filter((o) => o !== "")
       );
       const organizers = Array.from(existing).sort((a, b) =>
         a.localeCompare(b, "fr")
@@ -635,7 +669,25 @@
       });
     }
 
-    // Applique les filtres et (re)dessine les cartes
+    // Logo pour un organisateur (gère les cas "X & Y, Z")
+    function getOrganizerLogoPath(organizerRaw) {
+      if (!organizerRaw) return null;
+      const parts = organizerRaw.split(/[,&]/);
+      for (const part of parts) {
+        const key = normalizeKey(part);
+        if (LOGO_MAP[key]) {
+          return LOGO_MAP[key];
+        }
+      }
+      // si rien trouvé, on essaie la chaîne entière normalisée
+      const fullKey = normalizeKey(organizerRaw);
+      if (LOGO_MAP[fullKey]) {
+        return LOGO_MAP[fullKey];
+      }
+      return null;
+    }
+
+    // Filtrage + affichage des cartes
     function applyFilters() {
       const cardsContainer = document.getElementById("cards");
       const noResultsEl = document.getElementById("no-results");
@@ -644,7 +696,7 @@
       const search = state.search.toLowerCase();
 
       const filtered = DATA.filter((item) => {
-        // filtrage texte
+        // texte
         if (search) {
           const haystack = (
             (item.intitule || "") +
@@ -652,26 +704,25 @@
             (item.organisateur || "") +
             " " +
             (item.descriptif || "")
-          )
-            .toLowerCase();
+          ).toLowerCase();
           if (!haystack.includes(search)) return false;
         }
 
-        // filtrage Spé
+        // Spé
         if (state.specs.size > 0) {
           const matchSpe = item.speList.some((s) => state.specs.has(s));
           if (!matchSpe) return false;
         }
 
-        // filtrage Public
+        // Public
         if (state.publics.size > 0) {
           const matchPub = item.publicList.some((p) => state.publics.has(p));
           if (!matchPub) return false;
         }
 
-        // filtrage Organisateur
-        if (state.organizer !== "all") {
-          if ((item.organisateur || "").trim() !== state.organizer) return false;
+        // Organisateur
+        if (state.organizerKey !== "all") {
+          if (item.organisateurKey !== state.organizerKey) return false;
         }
 
         return true;
@@ -704,7 +755,7 @@
         const tagsContainer = document.createElement("div");
         tagsContainer.className = "card-tags";
 
-        // tags public (M1/M2/diplômés)
+        // Public (M1/M2/diplômés)
         item.publicList.forEach((p) => {
           const tag = document.createElement("span");
           if (p === "M1") tag.className = "tag tag-public-M1";
@@ -714,7 +765,7 @@
           tagsContainer.appendChild(tag);
         });
 
-        // tags Spé (PE/TELE/RADIO/MULTIMEDIA) – uniquement ceux présents
+        // Spé (PE / TELE / RADIO / MULTIMEDIA)
         item.speList.forEach((s) => {
           const tag = document.createElement("span");
           tag.className = "tag tag-spe-" + s;
@@ -731,8 +782,7 @@
           const orgRow = document.createElement("div");
           orgRow.className = "card-organisateur";
 
-          const key = stripDiacritics(item.organisateur.toLowerCase());
-          const logoPath = LOGO_MAP[key];
+          const logoPath = getOrganizerLogoPath(item.organisateur);
 
           if (logoPath) {
             const logoImg = document.createElement("img");
@@ -761,26 +811,27 @@
           p.textContent = item.descriptif;
           card.appendChild(p);
         }
-// FOOTER
-const footer = document.createElement("div");
-footer.className = "card-footer";
 
-if (item.lien) {
-  const link = document.createElement("a");
-  link.className = "card-link";
-  link.href = item.lien;
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
-  link.textContent = "En savoir plus";
-  footer.appendChild(link);
-} else {
-  const span = document.createElement("span");
-  span.className = "badge-small";
-  span.textContent = "Lien non renseigné";
-  footer.appendChild(span);
-}
+        // FOOTER (sans redondance des PE/RADIO/…)
+        const footer = document.createElement("div");
+        footer.className = "card-footer";
 
-card.appendChild(footer);
+        if (item.lien) {
+          const link = document.createElement("a");
+          link.className = "card-link";
+          link.href = item.lien;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "Voir le règlement";
+          footer.appendChild(link);
+        } else {
+          const span = document.createElement("span");
+          span.className = "badge-small";
+          span.textContent = "Lien non renseigné";
+          footer.appendChild(span);
+        }
+
+        card.appendChild(footer);
 
         cardsContainer.appendChild(card);
       });
@@ -798,7 +849,10 @@ card.appendChild(footer);
         complete: function (results) {
           DATA = results.data.map((row) => {
             const intitule = valueFromRow(row, ["Intitulé", "Intitulé "]);
-            const organisateur = valueFromRow(row, ["Organisateur", "Organisateur "]);
+            const rawOrg = valueFromRow(row, ["Organisateur", "Organisateur "]);
+            const organisateur = rawOrg ? rawOrg.trim() : "";
+            const organisateurKey = normalizeKey(organisateur);
+
             const speRaw = valueFromRow(row, ["Spé", "Spe", "Spé "]);
             const publicRaw = valueFromRow(row, ["Public concerné", "Public concerné "]);
             const descriptif = valueFromRow(row, ["Descriptif", "Descriptif "]);
@@ -810,6 +864,7 @@ card.appendChild(footer);
             return {
               intitule,
               organisateur,
+              organisateurKey,
               speList,
               publicList,
               descriptif,
@@ -850,7 +905,12 @@ card.appendChild(footer);
 
       const orgSelect = document.getElementById("filter-organisateur");
       orgSelect.addEventListener("change", (e) => {
-        state.organizer = e.target.value;
+        const value = e.target.value;
+        if (value === "all") {
+          state.organizerKey = "all";
+        } else {
+          state.organizerKey = normalizeKey(value);
+        }
         applyFilters();
       });
 
@@ -859,3 +919,4 @@ card.appendChild(footer);
   </script>
 </body>
 </html>
+
