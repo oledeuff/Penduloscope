@@ -320,16 +320,6 @@
       z-index: 1;
     }
 
-    .organisateur-logo {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      object-fit: contain;
-      background: #ffffff;
-      border: 1px solid var(--border-subtle);
-      padding: 2px 3px;
-    }
-
     .organisateur-avatar {
       width: 28px;
       height: 28px;
@@ -468,6 +458,7 @@
 
   <script>
     // Nom du fichier CSV (dans le même dossier que index.html)
+    // ⚠️ Assure-toi qu'il s'appelle bien "prix.csv" ou change ici.
     const CSV_URL = "prix.csv";
 
     // Valeurs de référence
@@ -487,65 +478,6 @@
         .toLowerCase()
         .trim();
     }
-
-    // Logos connus
-    const LOGO_MAP = {
-      "l'equipe": "logos/lequipe.svg",
-      "lequipe": "logos/lequipe.svg",
-
-      "ajis": "logos/ajis.svg",
-      "association ajis": "logos/ajis.svg",
-
-      "fondation de la chimie": "logos/fondation-chimie.svg",
-
-      "association ajir": "logos/ajir.svg",
-      "ajir": "logos/ajir.svg",
-
-      "universite paris dauphine & jne": "logos/dauphine-psl.svg",
-      "universite paris dauphine": "logos/dauphine-psl.svg",
-      "jne": "logos/jne.svg",
-
-      "elle": "logos/elle.svg",
-      "geo": "logos/geo.svg",
-
-      "radio france": "logos/radio-france.svg",
-      "rtl": "logos/rtl.svg",
-
-      "rmc sport": "logos/rmc-sport.svg",
-      "rmc info": "logos/rmc.svg",
-      "rmc": "logos/rmc.svg",
-
-      "rfi": "logos/rfi.svg",
-      "radios francophones publiques": "logos/rfp.svg",
-
-      "france televisions": "logos/france-televisions.svg",
-      "france television": "logos/france-televisions.svg",
-      "france 3 et tsvp": "logos/france3.svg",
-      "france 3": "logos/france3.svg",
-
-      "bfm tv": "logos/bfmtv.svg",
-      "bfmtv": "logos/bfmtv.svg",
-
-      "canal +": "logos/canal+.svg",
-      "canal+": "logos/canal+.svg",
-
-      "tf1 et lci": "logos/tf1.svg",
-      "tf1": "logos/tf1.svg",
-      "lci": "logos/lci.svg",
-
-      "m6": "logos/m6.svg",
-
-      "fondation hippocrene, ministere francais des affaires etrangeres & aje": "logos/fondation-hippocrene.svg",
-      "fondation hippocrene": "logos/fondation-hippocrene.svg",
-
-      "ministere de l'enseignement superieur et de la recherche": "logos/ministere-esr.svg",
-      "ministere de l'enseignement suppérieur et de la recherche": "logos/ministere-esr.svg",
-
-      "ministere de l'europe et des affaires etrangeres": "logos/ministere-meae.svg",
-      "ministere francais des affaires etrangeres": "logos/ministere-meae.svg",
-
-      "aje": "logos/aje.svg",
-    };
 
     let DATA = [];
 
@@ -669,24 +601,6 @@
       });
     }
 
-    // Logo pour un organisateur (gère les cas "X & Y, Z")
-    function getOrganizerLogoPath(organizerRaw) {
-      if (!organizerRaw) return null;
-      const parts = organizerRaw.split(/[,&]/);
-      for (const part of parts) {
-        const key = normalizeKey(part);
-        if (LOGO_MAP[key]) {
-          return LOGO_MAP[key];
-        }
-      }
-      // si rien trouvé, on essaie la chaîne entière normalisée
-      const fullKey = normalizeKey(organizerRaw);
-      if (LOGO_MAP[fullKey]) {
-        return LOGO_MAP[fullKey];
-      }
-      return null;
-    }
-
     // Filtrage + affichage des cartes
     function applyFilters() {
       const cardsContainer = document.getElementById("cards");
@@ -777,25 +691,15 @@
         header.appendChild(tagsContainer);
         card.appendChild(header);
 
-        // ORGANISATEUR
+        // ORGANISATEUR (avatar initiale)
         if (item.organisateur) {
           const orgRow = document.createElement("div");
           orgRow.className = "card-organisateur";
 
-          const logoPath = getOrganizerLogoPath(item.organisateur);
-
-          if (logoPath) {
-            const logoImg = document.createElement("img");
-            logoImg.className = "organisateur-logo";
-            logoImg.src = logoPath;
-            logoImg.alt = item.organisateur;
-            orgRow.appendChild(logoImg);
-          } else {
-            const avatar = document.createElement("div");
-            avatar.className = "organisateur-avatar";
-            avatar.textContent = item.organisateur.trim().charAt(0).toUpperCase();
-            orgRow.appendChild(avatar);
-          }
+          const avatar = document.createElement("div");
+          avatar.className = "organisateur-avatar";
+          avatar.textContent = item.organisateur.trim().charAt(0).toUpperCase();
+          orgRow.appendChild(avatar);
 
           const orgName = document.createElement("span");
           orgName.textContent = item.organisateur;
@@ -812,7 +716,7 @@
           card.appendChild(p);
         }
 
-        // FOOTER (sans redondance des PE/RADIO/…)
+        // FOOTER
         const footer = document.createElement("div");
         footer.className = "card-footer";
 
@@ -847,6 +751,8 @@
         header: true,
         skipEmptyLines: true,
         complete: function (results) {
+          console.log("CSV brut:", results.data); // pour vérifier que PapaParse lit bien tes lignes
+
           DATA = results.data.map((row) => {
             const intitule = valueFromRow(row, ["Intitulé", "Intitulé "]);
             const rawOrg = valueFromRow(row, ["Organisateur", "Organisateur "]);
@@ -877,9 +783,9 @@
           statusEl.textContent = "";
         },
         error: function (err) {
-          console.error(err);
+          console.error("Erreur PapaParse:", err);
           statusEl.textContent =
-            "Erreur lors du chargement du CSV. Vérifiez le nom de fichier.";
+            "Erreur lors du chargement du CSV. Vérifiez le nom de fichier et l'ouverture via http:// et non file://";
         },
       });
     }
@@ -919,4 +825,3 @@
   </script>
 </body>
 </html>
-
